@@ -23,6 +23,7 @@
     "@types/express": "^4.17.21",
     "@types/mongoose": "^5.11.97",
     "@types/multer": "^1.4.11",
+    "@types/validator": "^13.11.7",
     "dotenv": "^16.3.1",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
@@ -35,6 +36,7 @@
     "google-auth-library": "^9.4.1",
     "googleapis": "^129.0.0",
     "mongoose": "^8.0.3",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "validator": "^13.11.0"
   }
 }
