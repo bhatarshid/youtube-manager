@@ -3,19 +3,21 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
-import router from './router'
+import router from './router';
+import { connectDb } from './config/db-connect';
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
+const app = express();
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(cors({
     credentials: true,
 }));
 
 app.use('/api', router());
 
-app.listen(process.env.PORT, () => { 
-    console.log(`Server is listening on ${process.env.PORT}`)
+app.listen(process.env.PORT, async () => { 
+    await connectDb();
+    console.log(`Server is listening on ${process.env.PORT}`);
 })
