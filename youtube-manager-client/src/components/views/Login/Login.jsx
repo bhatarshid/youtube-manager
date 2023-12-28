@@ -1,9 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import Bottomleftsvg from "../../../assets/svgs/Bottomleftsvg";
 import Toprightsvg from "../../../assets/svgs/Toprightsvg";
 import Googlesvg from "../../../assets/svgs/Googlesvg";
+import { use_user_auth } from "../../../script/authcontext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const {logIn, googleSignIn} = use_user_auth()
+  const navigate = useNavigate()
+
+
+  const submit_login_form= async (event) => {
+    event.preventDefault();
+    const username = event.target.username.value
+    const password = event.target.password.value
+    if (username.length ==0 || password.length ==0){
+      console.log("username / password should not be empty!")
+      return
+    }
+    try {
+     await logIn(username, password)
+
+     navigate('/me')
+    }
+    catch(err){
+      console.log(err)
+    }
+    console.log(username, password)
+
+    event.target.reset()
+  }
+
+  const sign_in_with_google = async (event) =>{
+    event.preventDefault()
+    try{
+        await googleSignIn()
+        navigate('/me')
+    }
+    catch(err){
+        console.log(err)
+    }
+  }
+  
   return (
     <div className="container-fluid vh-100">
       <div className="mt-2">
@@ -15,13 +53,14 @@ const Login = () => {
           <h4 className="text-muted mb-4">Login</h4>
         </div>
         <div className="w-50">
-          <form>
+          <form onSubmit={submit_login_form}>
             <div className="mb-4">
               <label htmlFor="username">Username</label>
               <br />
               <input
                 className="w-100 form-control form-control-sm"
                 id="username"
+                name="username"
                 type="text"
               />
             </div>
@@ -31,6 +70,7 @@ const Login = () => {
               <input
                 className="w-100 form-control form-control-sm"
                 id="password"
+                name="password"
                 type="text"
               />
             </div>
@@ -58,7 +98,7 @@ const Login = () => {
           <hr className="flex-grow-1" />
         </div>
         <div>
-          <button className="btn btn-outline-primary rounded-pill text-center"><Googlesvg/> Sign in with Google</button>
+          <button className="btn btn-outline-primary rounded-pill text-center" type="button" onClick={sign_in_with_google}><Googlesvg/> Sign in with Google</button>
         </div>
       </div>
 
